@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>食尚味之源 | 后台管理</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="../static/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../static/bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="../static/bower_components/Ionicons/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../static/dist/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="../static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  <style type="text/css">
+    .pointer{
+      cursor: pointer;
+    }
+    ::-ms-browse, [type='file'] {
+    /*padding: .4em;*/
+    line-height: 24px;
+    border: 1px solid #a0b3d6;
+    background: #f0f3f9;
+    color: #34538b;
+  }
+  ::-webkit-file-upload-button {
+    /*padding: .4em;*/
+    /*line-height: 30px;*/
+    border: 1px solid #a0b3d6;
+    background: #f0f3f9;
+    color: #34538b;
+}
+  #sub{
+    border :0px;
+    background-color: rgba(0.2,0.2,0.2,0)
+  }
+  </style>
+<!--  引入基本js-->
+  <script src="../static/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../static/dist/js/adminlte.min.js"></script>
+  <script src="../static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+
+
+</head>
+
+<body class="hold-transition skin-green-light   sidebar-mini">
+  <div class="wrapper">
+
+  <!-- Main Header -->
+    <header class="main-header">
+
+    <!-- Logo -->
+    <a href="index2.html" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini">Food</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg">食尚味之源</span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <!-- Navbar Right Menu -->
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <!-- Messages: style can be found in dropdown.less-->
+          <li class="dropdown messages-menu">
+            <!-- Menu toggle button -->
+                <!-- inner menu: contains the messages -->
+          </li>
+          <!-- /.messages-menu -->
+
+          <!-- Notifications Menu -->
+
+          <!-- Tasks Menu -->
+
+          <!-- User Account Menu -->
+          <li class="dropdown user user-menu">
+            <!-- Menu Toggle Button -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <!-- The user image in the navbar-->
+              <img src="../static/img/2.jpg" class="user-image" alt="User Image">
+              <!-- hidden-xs hides the username on small devices so only the image appears. -->
+              {{/*{{if eq .user.Role 1 }}*/}}
+                <span class="hidden-xs">Super Adminstor</span>
+              {{/*{{else }}*/}}
+                <span class="hidden-xs">Normal Adminstor</span>
+              {{/*{{end }}*/}}
+            </a>
+            <ul class="dropdown-menu">
+              <!-- The user image in the menu -->
+              <li class="user-header">
+                <img src="../static/img/2.jpg" class="img-circle" alt="User Image">
+
+                <p>
+                     Hxy - Go Developer
+                  <small>Go online May .1 </small>
+                </p>
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-right">
+                  <a href="#" class="btn btn-default btn-flat" id="signout">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+    <aside class="main-sidebar">
+
+    <section class="sidebar">
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="../static/img/2.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          {{/*{{if eq .user.Role 1 }}*/}}
+          <p>超级管理员</p>
+          {{/*{{else}}*/}}
+          <p>普通管理员</p>
+          {{/*{{end}}*/}}
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Search...">
+          <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+        </div>
+      </form>
+      <!-- /.search form -->
+
+      <!-- Sidebar Menu -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header text-center">MAIN NAVGATION</li>
+         <li class="treeview ">
+          <a href="/user/index" class=""><i class="fa fa-link"></i> <span>用户管理</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/user/index">用户管理</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>菜品管理</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/movie/moviemanage">菜谱管理</a></li>
+            <li><a href="/movie/movierelease">菜单管理</a></li>
+          </ul>
+        </li>
+          </li>
+          <li class="treeview">
+              <a href="#"><i class="fa fa-link"></i> <span>资讯管理</span>
+                  <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+              </a>
+              <ul class="treeview-menu">
+                  <li><a href="/system/sysusermanager">发布消息</a></li>
+              </ul>
+          </li>
+        {{/*{{if eq .user.Role 1 }}*/}}
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>系统用户</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/system/sysusermanager">系统用户管理</a></li>
+            <li><a href="/system/systemuser">增加系统用户</a></li>
+          </ul>
+        </li>
+        {{/*{{ end }}*/}}
+      </ul>
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {{ .Title }}
+        <small>{{.title}}</small>
+      </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+      {{.LayoutContent}}
+
+      <!--------------------------
+        | Your Page Content Here |
+        -------------------------->
+
+          <!-- 官方消息发布 -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+    <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      Anything you want
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2018 <a href="#">HxyCompany</a>.</strong> All rights reserved.
+  </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Create the tabs -->
+      <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+        <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+        <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <!-- Home tab content -->
+        <div class="tab-pane active" id="control-sidebar-home-tab">
+          <h3 class="control-sidebar-heading">Recent Activity</h3>
+          <ul class="control-sidebar-menu">
+            <li>
+              <a href="javascript:;">
+                <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                  <p>Will be 23 on April 24th</p>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <!-- /.control-sidebar-menu -->
+
+          <h3 class="control-sidebar-heading">Tasks Progress</h3>
+          <ul class="control-sidebar-menu">
+            <li>
+              <a href="javascript:;">
+                <h4 class="control-sidebar-subheading">
+                  Custom Template Design
+                  <span class="pull-right-container">
+                      <span class="label label-danger pull-right">70%</span>
+                    </span>
+                </h4>
+                <div class="progress progress-xxs">
+                  <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+        <div class="tab-pane" id="control-sidebar-settings-tab">
+          <form method="post">
+            <h3 class="control-sidebar-heading">General Settings</h3>
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Report panel usage
+                <input type="checkbox" class="pull-right" checked>
+              </label>
+              <p>
+                Some information about this general settings option
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+    </aside>
+    <div class="control-sidebar-bg"></div>
+  </div>
+</body>
+ 
+
+
+  <script type="text/javascript">
+    $("#signout").click(function(){
+      if(confirm("确认登出吗？")){
+          window.location.href = "/account/loginout"
+      }
+    });
+  </script>
+  <script>
+  $(function () {
+    $('.textarea').wysihtml5()
+  })
+
+
+</script>
+
+
+</html>
