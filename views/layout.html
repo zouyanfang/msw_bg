@@ -18,6 +18,7 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
+  <link rel="stylesheet" type="text/css" href="../static/js/webuploader.css">
   <style type="text/css">
     .pointer{
       cursor: pointer;
@@ -40,17 +41,30 @@
     border :0px;
     background-color: rgba(0.2,0.2,0.2,0)
   }
+     .b {
+            border :1px solid gray;
+            height: 120px;
+        }
+        .fake{
+            color: gray;
+            margin-top: 40px;
+            cursor: pointer
+        }
+          .mypic {
+            height: 100px;
+
+        }
   </style>
 <!--  引入基本js-->
   <script src="../static/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="../static/dist/js/adminlte.min.js"></script>
   <script src="../static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-
+  <script type="text/javascript" src="../static/js/webuploader.js"></script>
 
 </head>
 
-<body class="hold-transition skin-green-light   sidebar-mini">
+<body class="hold-transition skin-green  sidebar-mini">
   <div class="wrapper">
 
   <!-- Main Header -->
@@ -157,7 +171,7 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/user/index">用户管理</a></li>
+            <li><a href="/user/touser">用户管理</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -167,8 +181,8 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/movie/moviemanage">菜谱管理</a></li>
-            <li><a href="/movie/movierelease">菜单管理</a></li>
+            <li><a href="/dish/todish">菜谱管理</a></li>
+            <li><a href="/menu/tomenu">菜单管理</a></li>
           </ul>
         </li>
           </li>
@@ -179,7 +193,7 @@
               </span>
               </a>
               <ul class="treeview-menu">
-                  <li><a href="/system/sysusermanager">发布消息</a></li>
+                  <li><a href="/sysuser/tonews">发布消息</a></li>
               </ul>
           </li>
         {{/*{{if eq .user.Role 1 }}*/}}
@@ -190,8 +204,7 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/system/sysusermanager">系统用户管理</a></li>
-            <li><a href="/system/systemuser">增加系统用户</a></li>
+            <li><a href="/sysuser/tosys">系统用户管理</a></li>
           </ul>
         </li>
         {{/*{{ end }}*/}}
@@ -212,12 +225,11 @@
     </section>
     <!-- Main content -->
     <section class="content container-fluid">
-
       {{.LayoutContent}}
-
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
+
 
           <!-- 官方消息发布 -->
 

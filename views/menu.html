@@ -1,0 +1,141 @@
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">菜单列表</h3>
+        <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+            <tbody id="newsbody"><tr>
+                <th>ID</th>
+                <th>MenuName</th>
+                <th>CollectNumber</th>
+                <th>DishNumber</th>
+                <th>Del</th>
+            </tr>
+
+            <tr class="th">
+                <td>10</td>
+                <td>歌姬</td>
+                <td>2018-04-27</td>
+                <td>一起来聆听吧</td>
+                <td class=""><a class="fa fa-close" value="3"></a></td>
+            </tr>
+
+            <tr class="th">
+                <td>3</td>
+                <td>加热比海盗来啦！</td>
+                <td>2018-04-26</td>
+                <td>5年的史诗巨作</td>
+                <td class=""><a class="fa fa-close" value="3"></a></td>
+            </tr>
+
+            <tr class="th">
+                <td>4</td>
+                <td>劳拉O(∩_∩)O哈哈~</td>
+                <td>2018-04-26</td>
+                <td>古墓古墓古墓重要的事情说三遍！！！</td>
+                <td class=""><a class="fa fa-close" value="3"></a></td>
+            </tr>
+
+            <tr class="th">
+                <td>5</td>
+                <td>环太平洋</td>
+                <td>2018-04-26</td>
+                <td>特效风暴来袭</td>
+                <td class=""><a class="fa fa-close" value="3"></a></td>
+            </tr>
+
+            </tbody></table>
+    </div>
+
+    <div class="box-footer clearfix">
+        <ul class="pagination pagination-sm no-margin pull-right" id="newspage">
+
+            <li class="disabled page" id="prev" value="0"><a href="#">&lt;&lt;</a></li>
+
+            <li class=""><a href="#" id="pages">1</a></li>
+
+            <li class="page" id="next" value="1"><a href="#">&gt;&gt;</a></li>
+
+        </ul>
+    </div>
+</div>
+
+<!-- <h3>发布菜单</h3>
+<div class="callout callout-success">
+        <h4>Warning!</h4>
+
+        <p><b>Menu Release</b> You have to be very careful because once the news is released, it can not be modified, it can only be deleted.</p>
+</div>
+
+   <div class="col-sm-12 " style="margin-top: 20px;" id="releasedish">
+            <form>
+                <div class="row">
+                    <div class="form-group col-sm-4">
+                        <label for="img" class="control-label" id="addimg">MenuImg</label>
+                        <input type="file" id="img" class="hidden">
+                    </div>
+                    <div class="col-sm-8" >
+                        <img src=""  id="showimg" style="height: 100px;width: 100px;" alt="菜单图片">
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label for="menuname" class="control-label">Name:</label>
+                    <input type="text" class="form-control" id="menuname">
+                </div>
+                <div class="form-group">
+                    <label for="describe" class="control-label">MenuDescription:</label>
+                    <textarea class="form-control" id="describe"></textarea>
+                </div>
+                <button class="btn btn-default" id="createmenu" type="button">发布菜单</button>
+            </form>
+        </div>
+
+<script type="text/javascript">
+    
+        $("#img").change(function(){
+        imgPreview()
+        console.log("123123123edflasdjfliJWN")
+    })
+
+     function imgPreview(){
+        //判断是否支持FileReader
+        if (window.FileReader) {
+            var reader = new FileReader();
+        } else {
+            alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+        }
+
+        //获取文件
+        var file = $("#img")[0].files[0];
+        var imageType = /^image\//;
+        //是否是图片
+        if (!imageType.test(file.type)) {
+            alert("请选择图片！");
+            return;
+        }
+        reader.readAsDataURL(file)
+        //读取完成
+        reader.onload = function(e) {
+            //获取图片dom
+            var img = document.getElementById("showimg");
+            //图片路径设置为读取的图片
+            img.src = e.target.result;
+            console.log(img)
+        };
+    }
+
+    $("#img").change(function(){
+        imgPreview()
+    })
+</script> -->

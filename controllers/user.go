@@ -12,3 +12,4 @@ func (this *UserController)ToUser(){
 	this.TplName = "user.html"
 	return
 }
+
