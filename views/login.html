@@ -148,14 +148,16 @@
             return
         }
         var password = $("#password").val()
+        console.log(password)
         var user = $("#username").val()
         $.ajax({
             url: '/account/login',
             type: 'get',
             dataType: 'json',
-            data: {"user":user,"password":password},
+            data: {"name":user,"pwd":password},
             success:function(result){
-                if (result.Status){
+                console.log(result)
+                if (result.Ret == 200){
                     window.location.href = "/"
                     return
                 }

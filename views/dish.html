@@ -93,7 +93,7 @@
                 <button class="btn btn-info col-sm-offset-10" id="createdish" type="button">创建菜谱</button>
             </form>
 
-            <div class="col-sm-12 " id="dishdetail" style="margin-top: 20px;border-top: 1px solid gray;">
+            <div class="col-sm-12 hidden" id="dishdetail" style="margin-top: 20px;border-top: 1px solid gray;">
                 <h3>菜谱详情</h3>
                 <form class="col-sm-6">
                     <div class="form-group col-sm-7">
@@ -140,7 +140,7 @@
                         <button class="col-sm-6 btn btn-default pull-right" id="foodcommit" type="button">提交</button>
                     </div>
                 </form>
-                <div id="step" class="">
+                <div id="step" class="hidden">
                 <h3 class="col-sm-12">步骤</h3>
                 <div class="col-sm-12" style="margin-bottom: 30px">
                      <div id="uploader" class="wu-example">
@@ -153,7 +153,7 @@
                         <!-- <div id="list"></div> -->
                 </div>
 
-                    <div class="container">
+                    <div class="container ">
                         <div id="mycontent" class="">
                             <div class="col-sm-10" style="margin-bottom: 10px;">
                                 <div class="col-sm-3 b" id="list">
@@ -235,7 +235,7 @@
         auto: false,
 
         // 文件接收服务端。
-        server: '/user/getstepimg',
+        server: '/dish/getstepimg',
 
         // 选择文件的按钮。可选。
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -338,12 +338,13 @@
         }
         console.log(main)
         $.ajax({
-            url:"/user/updatedishstep",
+            url:"/dish/updatedishstep",
             type:"post",
             dataType:"json",
             data:{"step":step,"describe":main,"dishid":dishid},
             success:function (result) {
                 var s = uploader.upload();
+                location.reload()
             }
         })
 
@@ -419,7 +420,7 @@
         formData.append("dishname",$("#dishname").val())
         formData.append("describe",$("#describe").val())
         $.ajax({
-            url: '/user/createdish',
+            url: '/dish/createdish',
             type: 'post',
             dataType: 'json',
             data:formData,
@@ -454,14 +455,14 @@
                 main +=val+"/"
             }
         }
-        for (var i = 0;i<spinpu.length;i++){
+        for (var i = 0;i<spinpu.length;i++){    
             var val = $(spinpu[i]).val()
             if (val != ""){
                 second +=val+"/"
             }
         }
         $.ajax({
-            url:"/user/updatedish",
+            url:"/dish/updatedish",
             type:"post",
             dataType:"json",
             data:{"main":main,"second":second,"dishid":dish,"system":dishsystemt,"taste":taste},
