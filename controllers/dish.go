@@ -93,10 +93,12 @@ var l sync.RWMutex
 var Step int
 
 func (this *DishController)GetStepImg(){
+	fmt.Println("开始访问了")
 	s,f,err := this.GetFile("file")
 	if err != nil {
 		return
 	}
+	fmt.Println("开始访问了")
 	//该方法只能被一个线程访问
 	l.Lock()
 	id := int(time.Now().Unix())

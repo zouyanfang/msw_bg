@@ -326,6 +326,7 @@
     // 完成上传完了，成功或者失败，先删除进度条。
     uploader.on( 'uploadComplete', function( file ) {
         $( '#'+file.id ).find('.progress').remove();
+        alert("上传成功")
     });
     $btn.on( 'click', function() {
         console.log("上传...");
@@ -344,12 +345,11 @@
             data:{"step":step,"describe":main,"dishid":dishid},
             success:function (result) {
                 var s = uploader.upload();
-                location.reload()
+                // location.reload()
+                console.log("上传成功");
             }
         })
-
-
-        console.log("上传成功");
+        
     });
     
     $(document).on("click","#fake",function(){
