@@ -7,6 +7,7 @@ import (
 
 var (
 	MYSQL_URL string
+	PAGE_SIZE = 4
 )
 
 func init() {

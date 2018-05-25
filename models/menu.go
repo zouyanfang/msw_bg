@@ -12,6 +12,7 @@ type Menu struct {
 	CollectCount int    `description:"收藏人数"`
 	PopularCount int    `description:"人气"`
 	Counts        int    `description:"菜谱的总数"`
+	Name         string `description:"用户名"`
 }
 
 //官方uid = 0
@@ -29,6 +30,46 @@ func CheckMenuName(uid int,menuname string)(count int,err error){
 	sql := `SELECT COUNT(1) FROM menu WHERE uid = ? AND menu_name = ?`
 	o := orm.NewOrm()
 	err = o.Raw(sql,uid,menuname).QueryRow(&count)
+	return
+}
+
+
+func GetMenuList(page,pageSize int)(list []Menu,err error){
+	sql := `SELECT m.id,menu_name,create_date,u.name FROM menu m LEFT JOIN users u on m.uid = u.id LIMIT ?,?`
+	_,err = orm.NewOrm().Raw(sql,page,pageSize).QueryRows(&list)
+	return
+}
+
+func CountMenu()(count int,err error){
+	sql := `SELECT COUNT(1) FROM menu`
+	err = orm.NewOrm().Raw(sql).QueryRow(&count)
+	return
+}
+
+func DeleteMenu(menuid int)(err error){
+	o := orm.NewOrm()
+	defer func(){
+		if err != nil {
+			o.Rollback()
+			return
+		}
+		o.Commit()
+	}()
+	sql := `DELETE FROM menu WHERE id = ?`
+	_,err = o.Raw(sql,menuid).Exec()
+	if err != nil {
+		return
+	}
+	sql = `DELETE FROM menu_dish WHERE menu_id = ?`
+	_,err = o.Raw(sql,menuid).Exec()
+	if err != nil {
+		return
+	}
+	sql = `DELETE FROM user_collection WHERE menu_id = ?`
+	_,err = o.Raw(sql,menuid).Exec()
+	if err != nil {
+		return
+	}
 	return
 }
 

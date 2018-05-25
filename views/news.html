@@ -14,58 +14,40 @@
 
     <div class="box-body table-responsive no-padding">
         <table class="table table-hover">
-            <tbody id="newsbody"><tr>
+             <tr>
                 <th>ID</th>
                 <th>公告title</th>
-                <th>管理员</th>
                 <th>创建时间</th>
+                <th>内容</th>
                 <th>Del</th>
             </tr>
+            <tbody id="content">
 
-            <tr class="th">
-                <td>10</td>
-                <td>歌姬</td>
-                <td>2018-04-27</td>
-                <td>一起来聆听吧</td>
-                <td class=""><a class="fa fa-close" value="3"></a></td>
+            {{range $i,$v := .object.Object}}
+            <tr >
+                <td>{{$v.Id}}</td>
+                <td>{{$v.Title}}</td>
+                <td>{{$v.CreateTime}}</td>
+                <td>{{$v.Content}}</td>
+                <td class=""><a class="fa fa-close myclose" value="{{$v.Id}}"></a></td>
             </tr>
-
-            <tr class="th">
-                <td>3</td>
-                <td>加热比海盗来啦！</td>
-                <td>2018-04-26</td>
-                <td>5年的史诗巨作</td>
-                <td class=""><a class="fa fa-close" value="3"></a></td>
-            </tr>
-
-            <tr class="th">
-                <td>4</td>
-                <td>劳拉O(∩_∩)O哈哈~</td>
-                <td>2018-04-26</td>
-                <td>古墓古墓古墓重要的事情说三遍！！！</td>
-                <td class=""><a class="fa fa-close" value="3"></a></td>
-            </tr>
-
-            <tr class="th">
-                <td>5</td>
-                <td>环太平洋</td>
-                <td>2018-04-26</td>
-                <td>特效风暴来袭</td>
-                <td class=""><a class="fa fa-close" value="3"></a></td>
-            </tr>
-
+            {{end}}
             </tbody></table>
     </div>
 
     <div class="box-footer clearfix">
-        <ul class="pagination pagination-sm no-margin pull-right" id="newspage">
-
-            <li class="disabled page" id="prev" value="0"><a href="#">&lt;&lt;</a></li>
-
-            <li class=""><a href="#" id="pages">1</a></li>
-
-            <li class="page" id="next" value="1"><a href="#">&gt;&gt;</a></li>
-
+           <ul class="pagination pagination-sm no-margin pull-right" id="mypage" url={{.url}}>
+                {{if  .object.Pref}}
+                    <li class="page" id="prev" value=0><a href="#"  ><<</a></li>
+                {{else}}
+                    <li class="disabled page" id="prev" value=0><a href="#" ><<</a></li>
+                {{end}}
+                    <li class=""><a href="#" id="pages" >{{.object.Page}}</a></li>
+                {{if  .object.Next}}
+                    <li class="page" id="next" value=1><a href="#"  >>></a></li>
+                {{else}}
+                    <li class="disabled page" id="next" value=1><a href="#" >>></a></li>
+                {{end}}
         </ul>
     </div>
 </div>
@@ -114,13 +96,71 @@
             <form>
                 <div class="form-group">
                   <label>标题</label>   
-                  <input type="text" name="" class="form-control">
+                  <input type="text" name="" class="form-control" id="title">
                 </div>
                 <div class="form-group">
                   <label>内容</label>   
-                  <textarea class="form-control"></textarea>
+                  <textarea class="form-control" id="contents"></textarea>
                 </div>
             </form>
-            <button class="btn btn-default pull-right">Submit</button>
+            <button class="btn btn-default pull-right" id="submit">Submit</button>
         </div>
       </div>
+
+      <script type="text/javascript">
+      function PrepareString(result){
+            console.log(result)
+            for (var i = 0;i<result.Object.length;i++){
+                 var text = " <tr>"+
+                        "<td>"+result.Object[i].Id+"</td>"+
+                        "<td>"+result.Object[i].Title+"</td>"+
+                        "<td>"+result.Object[i].CreateTime+"</td>"+
+                        "<td>"+result.Object[i].Content+"</td>"+
+                        "<td class=><a class='fa fa-close myclose' value='"+result.Object[i].Id+"'></a></td>"
+                    "</tr>"
+                $("#content").append(text)
+            }
+        }
+
+
+        $("#submit").click(function(){
+            var val = $("#title").val()
+            var content = $("#contents").val()
+            if (val == "" || content == "") {
+                alert("还有选项没填完")
+                return
+            }
+            $.ajax({
+                url: '/news/releasenews',
+                type: 'get',
+                dataType: 'json',
+                data: {"title":val,"content":content},
+                success:function(result){
+                    if (result.Ret == 200){
+                        alert("发布成功")
+                        location.reload()
+                        return
+                    }
+                    alert(result.Msg)
+                }
+            })
+            
+        })
+
+   function Delete(id){
+        console.log(id)
+        $.ajax({
+            url: '/news/delete',
+            type: 'get',
+            dataType: 'json',
+            data: {"id":id},
+
+            success:function(result){
+                if (result.Ret != 200) {
+                    alert(result.Msg)
+                    return false
+                }
+            }
+        })
+    }
+</script>

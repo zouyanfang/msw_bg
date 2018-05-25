@@ -17,3 +17,11 @@ type RegisterCountResp struct {
 	YesterdayNum int //昨日注册人数
 	TodayNum     int //今日注册人数
 }
+type PageResp struct {
+	BaseResp
+	Page int
+	Count int
+	Next bool
+	Pref bool
+
+}

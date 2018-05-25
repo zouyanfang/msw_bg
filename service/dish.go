@@ -2,7 +2,7 @@ package service
 
 import (
 	"msw_bg/models"
-
+	"msw_bg/util"
 )
 
 func CreateNewDish(uid int,dishname string,dishimg string,describe string)(resp models.CreateDishResp){
@@ -25,3 +25,21 @@ func UpdateDishDetail(dishid int,taste,system string,main ,second string)(resp m
 	resp.Ret = 200
 	return
 }
+
+func GetDishList(page,pageSize int)(resp models.PageResp){
+	start := util.StartIndex(page,pageSize)
+	list,err := models.GetDishList(start,pageSize)
+	if err != nil {
+		resp.Msg = err.Error()
+		return
+	}
+	count,err := models.GetDishCount()
+	if err != nil {
+		resp.Msg = err.Error()
+		return
+	}
+	resp.Page = page
+	ParsePage(&resp,count,pageSize,list)
+	return
+}
+
