@@ -105,11 +105,11 @@
               <!-- The user image in the navbar-->
               <img src="../static/img/2.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              {{/*{{if eq .user.Role 1 }}*/}}
+              {{if eq .user.Role 1 }}
                 <span class="hidden-xs">Super Adminstor</span>
-              {{/*{{else }}*/}}
+              {{else }}
                 <span class="hidden-xs">Normal Adminstor</span>
-              {{/*{{end }}*/}}
+              {{end }}
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -142,11 +142,11 @@
           <img src="../static/img/2.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          {{/*{{if eq .user.Role 1 }}*/}}
+          {{if eq .user.Role 1 }}
           <p>超级管理员</p>
-          {{/*{{else}}*/}}
+          {{else}}
           <p>普通管理员</p>
-          {{/*{{end}}*/}}
+          {{end}}
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -196,7 +196,7 @@
                   <li><a href="/sysuser/tonews">发布消息</a></li>
               </ul>
           </li>
-        {{/*{{if eq .user.Role 1 }}*/}}
+        {{if eq .user.Role 1 }}
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>系统用户</span>
             <span class="pull-right-container">
@@ -207,7 +207,7 @@
             <li><a href="/sysuser/tosys">系统用户管理</a></li>
           </ul>
         </li>
-        {{/*{{ end }}*/}}
+        {{ end }}
       </ul>
       <!-- /.sidebar-menu -->
     </section>
