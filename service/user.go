@@ -6,7 +6,8 @@ import (
 	"fmt"
 )
 
-func GetUserRegisterNum() (resp models.RegisterCountResp) {
+//获取用户注册人数
+func GetUserRegisterNum() (resp models.CountResp) {
 	resp.Ret = 403
 	//获取注册总人数
 	totalNum,err := models.GetTotalRegisterNum()
@@ -33,7 +34,33 @@ func GetUserRegisterNum() (resp models.RegisterCountResp) {
 	return
 }
 
-
+//获取用户留言数
+func GetUserMessageNum()(resp models.CountResp)  {
+	resp.Ret = 430
+	//获取留言总数
+	totalNum,err := models.GetTotalMessage()
+	if err != nil {
+		resp.Msg = "获取总留言数失败"
+		return
+	}
+	resp.TotalNum = totalNum
+	//获取今日留言数
+	todayNum,err := models.GetTodayMessage()
+	if err != nil {
+		resp.Msg = "获取今日留言数失败"
+		return
+	}
+	resp.TodayNum = todayNum
+	//获取昨日留言数
+	yesNum,err := models.GetYesMessage()
+	if err != nil {
+		resp.Msg = "获取昨日留言数失败"
+		return
+	}
+	resp.YesterdayNum = yesNum
+	resp.Ret = 200
+	return
+}
 
 //获取用户列表
 func GetUser(page,pageSize int)(resp models.PageResp){
@@ -124,6 +151,15 @@ func AddAdmin(account,pwd string)(resp models.BaseResp){
 	return
 }
 
+func UpdateSysUser(uid int,state int) (resp models.BaseResp)  {
+	err := models.UpdateSysUser(uid,state)
+	if err != nil {
+		resp.Msg = err.Error()
+		return
+	}
+	resp.Ret = 200
+	return
+}
 
 //可复用分页
 func ParsePage(resp *models.PageResp,count,pageSize int,object interface{}){

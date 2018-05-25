@@ -19,6 +19,7 @@
                 <th>管理员</th>
                 <th>类型</th>
                 <th>创建时间</th>
+                <th>状态</th>
                 <th>Del</th>
             </tr>
             <tbody id="content">
@@ -28,6 +29,11 @@
                 <td>普通管理员</td>
                 <td>{{$v.Account}}</td>
                 <td>{{$v.CreateTime}}</td>
+                {{if eq $v.State 0}}
+                <td><span class="fa fa-unlock-alt unlock" style="color:red" value="{{$v.Id}}" state = {{$v.State}}></span></td>
+                {{else}}
+                <td><span class="fa fa-unlock unlock" style="color:#16d87f" value="{{$v.Id}}" state = {{$v.State}}></span></td>
+                {{end}}
                 <td class=""><a class="fa fa-close myclose" value="{{$v.Id}}"></a></td>
             </tr>
             {{end}}
@@ -154,5 +160,32 @@
             }
         })
     }
+
+    $(document).on("click",".unlock",function(){
+        var i = $(this)
+        var id = $(this).attr("value")
+        var state = $(this).attr("state")
+        $.ajax({
+            url:"/sysuser/updatesysuserstate",
+            type:"post",
+            data:{"id":id,"state":state},
+            dataType:"json",
+            success:function(result){
+                if (result.Ret == 200){
+                    if (state == 0){//加锁
+                        i.addClass("fa-unlock")
+                        i.removeClass("fa-unlock-alt")
+                        i.css("color","#16d87f")
+                        i.attr("state",1)
+                    }else if (state == 1){//解锁
+                         i.removeClass("fa-unlock")
+                        i.addClass("fa-unlock-alt")
+                        i.css("color","red")
+                        i.attr("state",0)
+                    }
+                }
+            }
+        })
+    })
 
   </script>

@@ -77,6 +77,18 @@ func (this *SysUserController)Delete(){
 	resp.Ret = 200
 }
 
+func (this *SysUserController) UpdateSysUserState()  {
+	var resp models.BaseResp
+	resp.Ret = 403
+	defer func() {
+		this.Data["json"] = resp
+		this.ServeJSON()
+	}()
+	id ,_:=this.GetInt("id")
+	state,_ :=this.GetInt("state")
+	resp = service.UpdateSysUser(id,state)
+}
+
 //登出
 func (this *SysUserController)LoginOut(){
 	this.Ctx.SetCookie("name","")

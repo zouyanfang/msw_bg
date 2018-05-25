@@ -11,12 +11,13 @@ type CreateDishResp struct {
 	Id int
 }
 
-type RegisterCountResp struct {
+type CountResp struct {
 	BaseResp
-	TotalNum     int //总的注册人数
-	YesterdayNum int //昨日注册人数
-	TodayNum     int //今日注册人数
+	TotalNum     int
+	YesterdayNum int
+	TodayNum     int
 }
+
 type PageResp struct {
 	BaseResp
 	Page int

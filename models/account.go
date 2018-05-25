@@ -10,12 +10,12 @@ type Admin struct {
 	Account string
 	Pwd string
 	Role int
-	Status int
+	State int
 	CreateTime string
 }
 
 func Login(account string,pwd string)(a *Admin){
-	sql := `SELECT * FROM admin WHERE account = ? AND pwd = ?`
+	sql := `SELECT * FROM admin WHERE account = ? AND pwd = ? AND state =1 `
 	o := orm.NewOrm()
 	err := o.Raw(sql,account,pwd).QueryRow(&a)
 	if err != nil {
@@ -43,7 +43,7 @@ func FindAccount(account string)(count int,err error){
 }
 
 func InsertAdmin(account ,pwd string)(err error){
-	sql := `INSERT INTO admin (account,pwd,role,create_time) VALUES (?,?,0,NOW())`
+	sql := `INSERT INTO admin (account,pwd,role,create_time,state) VALUES (?,?,0,NOW(),1)`
 	_,err = orm.NewOrm().Raw(sql,account,pwd).Exec()
 	return
 }

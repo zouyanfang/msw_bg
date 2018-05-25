@@ -26,6 +26,28 @@ func GetYesRegNum() (yesNum int,err error) {
 	err = orm.NewOrm().Raw(sql).QueryRow(&yesNum)
 	return
 }
+
+//获取总留言数
+func GetTotalMessage() (totalNum int,err error) {
+	sql := `SELECT COUNT(1) FROM user_message`
+	err = orm.NewOrm().Raw(sql).QueryRow(&totalNum)
+	return
+}
+
+//获取昨日留言数
+func GetYesMessage() (yesNum int,err error)  {
+	sql := `SELECT COUNT(1) FROM user_message WHERE DATE(create_time) = CURDATE() - 1`
+	err = orm.NewOrm().Raw(sql).QueryRow(&yesNum)
+	return
+}
+
+//获取今日留言数
+func GetTodayMessage() (todayNum int,err error) {
+	sql := `SELECT COUNT(1) FROM user_message WHERE DATE(create_time) = CURDATE()`
+	err = orm.NewOrm().Raw(sql).QueryRow(&todayNum)
+	return
+}
+
 type User struct {
 	Id           int
 	Name         string `description:"名字"`
@@ -85,4 +107,8 @@ func DeleteAdmin(id int)(err error){
 	return
 }
 
-
+func UpdateSysUser(uid int,state int) error {
+	sql := `UPDATE admin set state = ? WHERE id = ?`
+	_,err := orm.NewOrm().Raw(sql,uid,state).Exec()
+	return err
+}

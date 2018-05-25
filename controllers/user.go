@@ -13,13 +13,17 @@ type UserController struct {
 }
 
 func (this *UserController)ToUser(){
+	this.IsneedTemplate()
 	resp := service.GetUser(1,util.PAGE_SIZE)
 	fmt.Println(resp)
 	this.Data["object"] = resp
 	this.Data["url"] = "/user/pageuser"
-	this.IsneedTemplate()
+	//注册人统计
 	nums := service.GetUserRegisterNum()
+	//留言人数统计
+	counts := service.GetUserMessageNum()
 	this.Data["nums"] = nums
+	this.Data["counts"] = counts
 	this.TplName = "user.html"
 	return
 }
