@@ -5,24 +5,28 @@
     <!-- /.box-header -->
     <div class="box-body">
         <table class="table table-bordered">
-            <tbody><tr>
+            <tr>
                 <th style="width: 10px">Id</th>
                 <th>菜谱名</th>
                 <th>热度</th>
                 <th style="width: 40px">人气</th>
                 <th style="width: 200px">删除</th>
             </tr>
+            <tbody id="content">
+            {{range $i,$v := .object.Object}}
             <tr>
-                <td>1.</td>
-                <td>Update software</td>
+                <td>{{$v.Id}}</td>
+                <td>{{$v.DishName}}</td>
                 <td>
                     <div class="progress progress-xs">
-                        <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                        <div class="progress-bar progress-bar-danger" style="width: {{$v.PopularCount}}%"></div>
                     </div>
                 </td>
-                <td><span class="badge bg-red">55%</span></td>
+                <td><span class="badge bg-red">{{$v.CollectCount}}</span></td>
+                <td class='text-center'><button class='btn btn-default myclose' value="{{$v.Id}}">移除该菜单</button></td>
             </tr>
-            <tr>
+            {{end}}
+          <!--   <tr>
                 <td>2.</td>
                 <td>Clean database</td>
                 <td>
@@ -52,18 +56,24 @@
                 </td>
                 <td><span class="badge bg-green">90%</span></td>
                 <td class="text-center"><button class="btn btn-default">移除该菜单</button></td>
-            </tr>
+            </tr> -->
             </tbody></table>
     </div>
     <!-- /.box-body -->
     <div class="box-footer clearfix">
-        <ul class="pagination pagination-sm no-margin pull-right">
-            <li><a href="#">«</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">»</a></li>
-        </ul>
+            <ul class="pagination pagination-sm no-margin pull-right" id="mypage" url={{.url}}>
+                    {{if  .object.Pref}}
+                        <li class="page" id="prev" value=0><a href="#"  ><<</a></li>
+                    {{else}}
+                        <li class="disabled page" id="prev" value=0><a href="#" ><<</a></li>
+                    {{end}}
+                        <li class=""><a href="#" id="pages" >{{.object.Page}}</a></li>
+                    {{if  .object.Next}}
+                        <li class="page" id="next" value=1><a href="#"  >>></a></li>
+                    {{else}}
+                        <li class="disabled page" id="next" value=1><a href="#" >>></a></li>
+                    {{end}}
+            </ul>
     </div>
 </div>
 
@@ -177,7 +187,7 @@
         </div>
 
         <script type="text/javascript">
-    
+        
         $("#dishimg").change(function(){
         imgPreview()
         console.log("123123123edflasdjfliJWN")
@@ -345,7 +355,6 @@
             data:{"step":step,"describe":main,"dishid":dishid},
             success:function (result) {
                 var s = uploader.upload();
-                // location.reload()
                 console.log("上传成功");
             }
         })
@@ -477,4 +486,39 @@
         })
     })
 
+        // 准备字符串
+    function PrepareString(result){
+        console.log(result)
+        for (var i = 0;i<result.Object.length;i++){
+             var text = " <tr>"+
+                    "<td>"+result.Object[i].Id+"</td>"+
+                    "<td>"+result.Object[i].DishName+"</td>"+
+                    "<td>"+
+                        "<div class='progress progress-xs'>"+
+                            "<div class='progress-bar progress-bar-danger' style='width:"+result.Object[i].PopularCount+"%'></div>"+
+                        "</div>"+
+                    "</td>"+
+                    "<td><span class='badge bg-red'>"+result.Object[i].CollectCount+"</span></td>"+
+                    "<td class='text-center'><button class='btn btn-default myclose' value="+result.Object[i].Id+">移除该菜单</button></td>"+
+                "</tr>"
+            $("#content").append(text)
+        }
+    }
+
+    function Delete(id){
+        console.log(id)
+        $.ajax({
+            url: '/dish/delete',
+            type: 'get',
+            dataType: 'json',
+            data: {"dishid":id},
+
+            success:function(result){
+                if (result.Ret != 200) {
+                    alert(result.Msg)
+                    return false
+                }
+            }
+        })
+    }
 </script>

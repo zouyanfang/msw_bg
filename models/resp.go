@@ -11,3 +11,11 @@ type CreateDishResp struct {
 	Id int
 }
 
+//分页返回体
+type PageResp struct {
+	BaseResp
+	Page int
+	Count int
+	Next bool
+	Pref bool
+}

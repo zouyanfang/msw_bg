@@ -15,9 +15,24 @@ type DishController struct {
 }
 
 func (this *DishController)ToDish(){
+	resp :=service.GetDishList(1,util.PAGE_SIZE)
+	this.Data["object"] = resp
+	fmt.Println(resp)
+	this.Data["url"] = "/dish/pagedish"
 	this.IsneedTemplate()
 	this.TplName = "dish.html"
 	return
+}
+
+func (this *DishController)PageDish(){
+	var resp models.PageResp
+	resp.Ret = 403
+	defer func() {
+		this.Data["json"] = resp
+		this.ServeJSON()
+	}()
+	page,_ := this.GetInt("page")
+	resp = service.GetDishList(page,util.PAGE_SIZE)
 }
 
 
@@ -42,7 +57,25 @@ func (this *DishController)CreateDish(){
 	dishname := this.GetString("dishname")
 	describe := this.GetString("describe")
 	resp = service.CreateNewDish(this.User.Id,dishname,path,describe)
-	fmt.Println(resp)
+}
+
+func (this *DishController)Delete(){
+	var resp models.BaseResp
+	defer func() {
+		this.Data["json"] = resp
+		this.ServeJSON()
+	}()
+	id,err := this.GetInt("dishid")
+	if err != nil {
+		resp.Msg = err.Error()
+		return
+	}
+	err = models.DeleteDish(id)
+	if err != nil {
+		resp.Msg = err.Error()
+		return
+	}
+	resp.Ret = 200
 }
 
 func (this *DishController)UpdateDish(){

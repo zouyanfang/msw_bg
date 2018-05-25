@@ -13,8 +13,42 @@ type MenuController struct {
 
 //到菜单页
 func(this *MenuController)ToMenu(){
+	resp := service.GetMenuList(1,util.PAGE_SIZE)
+	this.Data["object"] = resp
+	this.Data["url"] = "/menu/pagemenu"
 	this.IsneedTemplate()
 	this.TplName = "menu.html"
+}
+
+func (this *MenuController)PageMenu(){
+	var resp models.PageResp
+	resp.Ret = 403
+	defer func() {
+		this.Data["json"] = resp
+		this.ServeJSON()
+	}()
+	page,_ :=this.GetInt("page")
+	resp = service.GetMenuList(page,util.PAGE_SIZE)
+}
+
+func (this *MenuController)Delete(){
+	var resp models.BaseResp
+	resp.Ret = 403
+	defer func() {
+		this.Data["json"] = resp
+		this.ServeJSON()
+	}()
+	id,err :=this.GetInt("menuid")
+	if err != nil {
+		resp.Msg = err.Error()
+		return
+	}
+	err = models.DeleteMenu(id)
+	if err != nil {
+		resp.Msg = err.Error()
+		return
+	}
+	resp.Ret = 200
 }
 
 //创建菜单
