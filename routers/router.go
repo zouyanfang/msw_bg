@@ -13,4 +13,10 @@ func init() {
     beego.AutoRouter(&controllers.MenuController{})//菜单controller
     beego.AutoRouter(&controllers.SysUserController{})//
     beego.AutoRouter(&controllers.AccountController{})
+    beego.AutoRouter(&controllers.NewsController{})
 }
+
+
+
+
+

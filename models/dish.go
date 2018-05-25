@@ -2,7 +2,26 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"fmt"
 )
+
+//菜谱
+type Dish struct {
+	Id             int
+	Uid            int    `description:"用户id"`
+	DishName       string `description:"菜名"`
+	DishImg        string `description:"菜成品图"`
+	IsSlideshow    int    `description:"是否是轮播图"`
+	ReleaseDate    string `description:"发布时间"`
+	MainMaterial   string `description:"主料"`
+	SecondMaterial string `description:"辅料"`
+	ReleaseRole    int    `description:"发布角色 0 官方 1用户"`
+	Tasty          string `description:"口味"`
+	DishSystem     string `description:"菜系"`
+	DishDescribe   string `description:"菜谱描述"`
+	CollectCount   int    `description:"收藏人数"`
+	PopularCount   int    `description:"人气"`
+}
 
 func GetLastDish()(id int,err error){
 	sql := `SELECT id FROM dish ORDER BY id DESC LIMIT 0,1`
@@ -66,5 +85,62 @@ func UpdateDish(dishid int,taste,system string,main ,second string)(err error){
 	sql := `UPDATE dish SET main_material = ?,second_material = ?,tasty = ?,dish_system = ? WHERE id = ?`
 	o := orm.NewOrm()
 	_,err = o.Raw(sql,main,second,taste,system,dishid).Exec()
+	return
+}
+
+func GetDishList(pageIndex,pageSize int)(list []Dish,err error){
+	sql := `SELECT id,dish_name,popular_count,collect_count FROM dish LIMIT ?,?`
+	_,err = orm.NewOrm().Raw(sql,pageIndex,pageSize).QueryRows(&list)
+	fmt.Println(list)
+	return
+}
+
+func GetDishCount()(count int,err error){
+	sql := `SELECT COUNT(1) FROM dish`
+	err = orm.NewOrm().Raw(sql).QueryRow(&count)
+	return
+}
+
+func ReleaseNews(uid int,title,content string)(err error ){
+	sql := `INSERT INTO message_board (uid,title,content,create_time) VALUES (?,?,?,NOW())`
+	_,err = orm.NewOrm().Raw(sql,uid,title,content).Exec()
+	return
+}
+
+
+func DeleteDish(dishid int)(err error){
+	o := orm.NewOrm()
+	defer func() {
+		if err != nil {
+			o.Rollback()
+			return
+		}
+		o.Commit()
+	}()
+	sql := `DELETE FROM dish WHERE id = ?`
+	_,err = o.Raw(sql,dishid).Exec()
+	if err != nil {
+		return
+	}
+	sql = `DELETE FROM menu_dish WHERE dish_id = ?`
+	_,err = o.Raw(sql,dishid).Exec()
+	if err != nil {
+		return
+	}
+	sql = `DELETE FROM dish_step WHERE dish_id = ?`
+	_,err = o.Raw(sql,dishid).Exec()
+	if err != nil {
+		return
+	}
+	sql = `DELETE FROM user_collection WHERE dish_id = ?`
+	_,err = o.Raw(sql,dishid).Exec()
+	if err != nil {
+		return
+	}
+	sql = `DELETE FROM dish_comment WHERE dish_id = ?`
+	_,err = o.Raw(sql,dishid).Exec()
+	if err != nil {
+		return
+	}
 	return
 }

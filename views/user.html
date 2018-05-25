@@ -37,49 +37,36 @@
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover">
-                    <tbody><tr>
+                      <tr>
                         <th>ID</th>
-                        <th>User</th>
+                        <th>Name</th>
                         <th>Date</th>
-
                         <th>Reason</th>
                     </tr>
-                    <tr>
-                        <td>183</td>
-                        <td>John Doe</td>
-                        <td>11-7-2014</td>
-
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    <tbody id="content">
+                  
+                    {{range $i,$v := .object.Object}}
+                    <tr class="me">
+                        <td>{{$v.Id}}</td>
+                        <td>{{$v.Name}}</td>
+                        <td>{{$v.CreateTime}}</td>
+                        <td>{{$v.Content}}</td>
                     </tr>
-                    <tr>
-                        <td>219</td>
-                        <td>Alexander Pierce</td>
-                        <td>11-7-2014</td>
-
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                    </tr>
-                    <tr>
-                        <td>657</td>
-                        <td>Bob Doe</td>
-                        <td>11-7-2014</td>
-
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                    </tr>
-                    <tr>
-                        <td>175</td>
-                        <td>Mike Doe</td>
-                        <td>11-7-2014</td>
-
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                    </tr>
+                    {{end}}
                     </tbody></table>
                 <div class="box-footer clearfix">
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                        <li><a href="#">«</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">»</a></li>
+                    <ul class="pagination pagination-sm no-margin pull-right" id="mypage" url={{.url}}>
+                    {{if  .object.Pref}}
+                        <li class="page" id="prev" value=0><a href="#"  ><<</a></li>
+                    {{else}}
+                        <li class="disabled page" id="prev" value=0><a href="#" ><<</a></li>
+                    {{end}}
+                        <li class=""><a href="#" id="pages" >{{.object.Page}}</a></li>
+                    {{if  .object.Next}}
+                        <li class="page" id="next" value=1><a href="#"  >>></a></li>
+                    {{else}}
+                        <li class="disabled page" id="next" value=1><a href="#" >>></a></li>
+                    {{end}}
                     </ul>
                 </div>
             </div>
@@ -88,3 +75,20 @@
         <!-- /.box -->
     </div>
 </div>
+
+<script type="text/javascript">
+
+    // 准备字符串
+    function PrepareString(result){
+        console.log(result)
+        for (var i = 0;i<result.Object.length;i++){
+             var text = " <tr>"+
+                    "<td>"+result.Object[i].Id+"</td>"+
+                    "<td>"+result.Object[i].Name+"</td>"+
+                    "<td>"+result.Object[i].CreateTime+"</td>"+
+                    "<td>"+result.Object[i].Content+"</td>"+
+                "</tr>"
+            $("#content").append(text)
+        }
+    }
+</script>

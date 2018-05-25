@@ -9,6 +9,34 @@ import (
 	"fmt"
 )
 
+
+func StartIndex(page,pageSize int)(pageIndex int){
+	if page <= 1 {
+		pageIndex = 0
+		return
+	}
+	pageIndex = (page-1)*pageSize
+	return
+}
+
+func PageCount(pageSize,count int)(pages int){
+	if count%pageSize==0 {
+		pages = count/pageSize
+		return
+	}
+	pages = count /pageSize+1
+	return
+}
+
+func IsHaveNext(page,pages int)(bool){
+	if page >= pages {
+		return false
+	}
+	return true
+}
+
+
+
 //图片保存
 func SaveImg(s multipart.File,f *multipart.FileHeader,id int,path string)(name string){
 	mode := strings.Split(f.Filename,".")
@@ -71,3 +99,4 @@ func SortNumber(a []int)([]int){
 	fmt.Println("排序后的图片",a)
 	return a
 }
+

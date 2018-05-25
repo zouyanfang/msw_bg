@@ -11,6 +11,7 @@ type Admin struct {
 	Pwd string
 	Role int
 	Status int
+	CreateTime string
 }
 
 func Login(account string,pwd string)(a *Admin){
@@ -20,5 +21,29 @@ func Login(account string,pwd string)(a *Admin){
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+	return
+}
+
+func GetAdminList(pageIndex,pageSize int)(list []Admin,err error){
+	sql := `SELECT * FROM admin WHERE role = 0 LIMIT ?,?`
+	_,err = orm.NewOrm().Raw(sql,pageIndex,pageSize).QueryRows(&list)
+	return
+}
+
+func CountAdmin()(count int,err error){
+	sql := `SELECT COUNT(1) FROM admin`
+	err = orm.NewOrm().Raw(sql).QueryRow(&count)
+	return
+}
+
+func FindAccount(account string)(count int,err error){
+	sql := `SELECT COUNT(1) FROM admin WHERE account = ?`
+	err = orm.NewOrm().Raw(sql,account).QueryRow(&count)
+	return
+}
+
+func InsertAdmin(account ,pwd string)(err error){
+	sql := `INSERT INTO admin (account,pwd,role,create_time) VALUES (?,?,0,NOW())`
+	_,err = orm.NewOrm().Raw(sql,account,pwd).Exec()
 	return
 }

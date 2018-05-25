@@ -193,7 +193,7 @@
               </span>
               </a>
               <ul class="treeview-menu">
-                  <li><a href="/sysuser/tonews">发布消息</a></li>
+                  <li><a href="/news/tonews">发布消息</a></li>
               </ul>
           </li>
         {{if eq .user.Role 1 }}
@@ -328,8 +328,63 @@
   $(function () {
     $('.textarea').wysihtml5()
   })
+</script>
+<script type="text/javascript">
+     $("#mypage .page").click(function(){
+        if ($(this).hasClass('disabled')){
+            return
+        }
+        var page = $("#pages").text()
+        if ($(this).attr("value") == "0" ){
+            page = parseInt(page)-1
+        }else{
+            page = parseInt(page)+1
+        }
+        var url = $("#mypage").attr("url")
+        console.log(url)
+        mypages(page,url)
+    });
+
+    function mypages(page,urls){
+        $.ajax({
+            url: urls,
+            type: 'get',
+            dataType: 'json',
+            data: {"page": page},
+            success:function(result){
+                if (result.Ret == 200){
+                    $("#content").empty()
+                    PrepareString(result)
+                    // 页面的判断
+                    $("#pages").text(result.Page)
+                    if (result.Next){
+                        $("#next").removeClass('disabled')
+                        
+                    }else {
+                        $("#next").addClass('disabled')
+                    }
+                    if(result.Pref){
+                        $("#prev").removeClass('disabled')
+                        
+                    }else {
+                        $("#prev").addClass('disabled')
+                    }
+                }
+            }
+        })
+    }
 
 
+     $(document).on('click', '.myclose', function(event) {
+      if(!confirm("确定删除吗")){
+        return
+      }
+        var id = $(this).attr("value")
+        if (Delete(id)){
+          return
+        }
+        $(this).parent().parent().remove()
+     });
 </script>
 
 
