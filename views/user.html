@@ -42,6 +42,7 @@
                         <th>Name</th>
                         <th>Date</th>
                         <th>Reason</th>
+                        <th>Check</th>
                     </tr>
                     <tbody id="content">
                   
@@ -51,6 +52,7 @@
                         <td>{{$v.Name}}</td>
                         <td>{{$v.CreateTime}}</td>
                         <td>{{$v.Content}}</td>
+                        <td><span class="label label-success pointer checks" value="{{$v.Id}}">查看</span></td>
                     </tr>
                     {{end}}
                     </tbody></table>
@@ -76,6 +78,8 @@
     </div>
 </div>
 
+<div id="userdetai"></div>
+
 <script type="text/javascript">
 
     // 准备字符串
@@ -87,8 +91,41 @@
                     "<td>"+result.Object[i].Name+"</td>"+
                     "<td>"+result.Object[i].CreateTime+"</td>"+
                     "<td>"+result.Object[i].Content+"</td>"+
+                    "<td><span class='label label-success pointer checks' value='"+result.Object[i].Id+"'>查看</span></td>"+
                 "</tr>"
             $("#content").append(text)
         }
     }
+
+    $(document).on("click",".checks",function () {
+        var i = $(this)
+        var id = i.attr("value")
+        $.ajax({
+            url :"/user/checkdetail",
+            type:"get",
+            dataType:"json",
+            data:{"id":id},
+            success:function (result) {
+                if (result.Ret == 200){
+                    var text = `<div class='box'>
+                                    <div class='box-header with-border'><h3 class='box-title'>留言详情</h3><div class='box-tools pull-right'>
+                                    <button type="button" class="btn btn-box-tool remove" data-widget="remove" data-toggle="tooltip"  data-original-title="Remove" id="remove">
+                                    <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                                </div><div class="box-body">`
+                    text += result.Object.Content
+                    text +="</div><div class='box-footer'>"+result.Object.CreateTime+"</div></div>"
+                    $("#userdetai").append(text)
+                    i.addClass("disabled")
+                    return
+                }
+                alert(result.Msg)
+            }
+        })
+    })
+
+    $(document).on("click",".remove",function () {
+        $(this).parent().parent().parent().remove()
+    })
 </script>

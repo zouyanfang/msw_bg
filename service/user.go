@@ -70,6 +70,12 @@ func GetUser(page,pageSize int)(resp models.PageResp){
 		resp.Msg = err.Error()
 		return
 	}
+	for i,_ := range list{
+		 r := []rune(list[i].Content)
+		 if len(r)>11{
+		 	list[i].Content = string(r[:10])
+		 }
+	}
 	count,err := models.UserCount()
 	if err != nil {
 		resp.Msg = err.Error()

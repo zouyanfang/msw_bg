@@ -43,3 +43,20 @@ func (this *UserController)PageUser(){
 	}
 	resp = service.GetUser(page,util.PAGE_SIZE)
 }
+
+
+func (this *UserController)CheckDetail(){
+	var resp models.BaseResp
+	defer func() {
+		this.Data["json"] = resp
+		this.ServeJSON()
+	}()
+	id,_ := this.GetInt("id")
+	m,err :=models.GetUserMsgDetail(id)
+	if err != nil {
+		resp.Msg = err.Error()
+		return
+	}
+	resp.Object = m
+	resp.Ret = 200
+}

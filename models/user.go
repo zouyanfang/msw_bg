@@ -112,3 +112,10 @@ func UpdateSysUser(uid int,state int) error {
 	_,err := orm.NewOrm().Raw(sql,uid,state).Exec()
 	return err
 }
+
+//获取用户detail
+func GetUserMsgDetail(id int)(m MessageBoard,err error){
+	sql := `SELECT * FROM user_message WHERE id = ?`
+	err = orm.NewOrm().Raw(sql,id).QueryRow(&m)
+	return
+}
