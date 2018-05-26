@@ -28,6 +28,10 @@ func (this *AccountController)Login(){
 	if u == nil {
 		return
 	}
+	if u.State != 1 {
+		resp.Msg = "该用户被冻结了！"
+		return
+	}
 	this.Ctx.SetCookie("name",u.Account)
 	this.Ctx.SetCookie("pwd",u.Pwd)
 	resp.Ret = 200

@@ -109,7 +109,8 @@ func DeleteAdmin(id int)(err error){
 
 func UpdateSysUser(uid int,state int) error {
 	sql := `UPDATE admin set state = ? WHERE id = ?`
-	_,err := orm.NewOrm().Raw(sql,uid,state).Exec()
+	_,err := orm.NewOrm().Raw(sql,state,uid).Exec()
+	fmt.Println(sql,uid,state)
 	return err
 }
 

@@ -15,7 +15,7 @@ type Admin struct {
 }
 
 func Login(account string,pwd string)(a *Admin){
-	sql := `SELECT * FROM admin WHERE account = ? AND pwd = ? AND state =1 `
+	sql := `SELECT * FROM admin WHERE account = ? AND pwd = ?  `
 	o := orm.NewOrm()
 	err := o.Raw(sql,account,pwd).QueryRow(&a)
 	if err != nil {

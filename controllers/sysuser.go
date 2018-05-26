@@ -86,6 +86,7 @@ func (this *SysUserController) UpdateSysUserState()  {
 	}()
 	id ,_:=this.GetInt("id")
 	state,_ :=this.GetInt("state")
+	fmt.Println("state",state)
 	resp = service.UpdateSysUser(id,state)
 }
 

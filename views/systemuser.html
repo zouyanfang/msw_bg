@@ -30,9 +30,9 @@
                 <td>{{$v.Account}}</td>
                 <td>{{$v.CreateTime}}</td>
                 {{if eq $v.State 0}}
-                <td><span class="fa fa-unlock-alt unlock" style="color:red" value="{{$v.Id}}" state = {{$v.State}}></span></td>
+                <td><span class="fa fa-unlock-alt unlock" style="color:red" value="{{$v.Id}}" state = 1></span></td>
                 {{else}}
-                <td><span class="fa fa-unlock unlock" style="color:#16d87f" value="{{$v.Id}}" state = {{$v.State}}></span></td>
+                <td><span class="fa fa-unlock unlock" style="color:#16d87f" value="{{$v.Id}}" state = 0></span></td>
                 {{end}}
                 <td class=""><a class="fa fa-close myclose" value="{{$v.Id}}"></a></td>
             </tr>
@@ -173,14 +173,14 @@
             success:function(result){
                 if (result.Ret == 200){
                     if (state == 0){//加锁
+                        i.removeClass("fa-unlock")
+                        i.addClass("fa-unlock-alt")
+                        i.css("color","red")
+                        i.attr("state",1)
+                    }else if (state == 1){//解锁
                         i.addClass("fa-unlock")
                         i.removeClass("fa-unlock-alt")
                         i.css("color","#16d87f")
-                        i.attr("state",1)
-                    }else if (state == 1){//解锁
-                         i.removeClass("fa-unlock")
-                        i.addClass("fa-unlock-alt")
-                        i.css("color","red")
                         i.attr("state",0)
                     }
                 }
