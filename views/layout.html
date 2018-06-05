@@ -346,20 +346,23 @@
     });
 
     function mypages(page,urls){
+        var name = $("#searchnumber").attr("value")
         $.ajax({
             url: urls,
             type: 'get',
             dataType: 'json',
-            data: {"page": page},
+            data: {"page": page,"name":name},
             success:function(result){
+                console.log(result)
                 if (result.Ret == 200){
+
                     $("#content").empty()
                     PrepareString(result)
                     // 页面的判断
                     $("#pages").text(result.Page)
                     if (result.Next){
                         $("#next").removeClass('disabled')
-                        
+
                     }else {
                         $("#next").addClass('disabled')
                     }
@@ -374,7 +377,6 @@
         })
     }
 
-
      $(document).on('click', '.myclose', function(event) {
       if(!confirm("确定删除吗")){
         return
@@ -385,6 +387,19 @@
         }
         $(this).parent().parent().remove()
      });
+
+    $("#searchnumbers").click(function(){
+        var name = $("#searchnumber").val()
+        if(name == ""){
+            alert("搜索不能空")
+            return
+        }
+        $("#searchnumber").attr("value",name)
+        var url = $("#mypage").attr("url")
+        alert("url"+url+"name"+name)
+        mypages(1,url)
+    })
+
 </script>
 
 

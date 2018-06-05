@@ -63,9 +63,14 @@ func GetUserMessageNum()(resp models.CountResp)  {
 }
 
 //获取用户列表
-func GetUser(page,pageSize int)(resp models.PageResp){
+func GetUser(page,pageSize int,name string)(resp models.PageResp){
+	uid := 0
+	if name != ""{
+		_,uid = models.FindByUid(name)
+		name = " '%"+name+"%'"
+	}
 	start := util.StartIndex(page,pageSize)
-	list ,err := models.UserList(start,pageSize)
+	list ,err := models.UserList(start,pageSize,name)
 	if err != nil {
 		resp.Msg = err.Error()
 		return
@@ -76,7 +81,7 @@ func GetUser(page,pageSize int)(resp models.PageResp){
 		 	list[i].Content = string(r[:10])
 		 }
 	}
-	count,err := models.UserCount()
+	count,err := models.UserCount(uid)
 	if err != nil {
 		resp.Msg = err.Error()
 		return

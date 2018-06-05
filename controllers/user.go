@@ -1,6 +1,5 @@
 package controllers
 
-
 import (
 	"msw_bg/service"
 	"msw_bg/util"
@@ -13,8 +12,9 @@ type UserController struct {
 }
 
 func (this *UserController)ToUser(){
+	fmt.Println("hahahah")
 	this.IsneedTemplate()
-	resp := service.GetUser(1,util.PAGE_SIZE)
+	resp := service.GetUser(1,util.PAGE_SIZE,"")
 	fmt.Println(resp)
 	this.Data["object"] = resp
 	this.Data["url"] = "/user/pageuser"
@@ -36,12 +36,14 @@ func (this *UserController)PageUser(){
 		this.Data["json"] = resp
 		this.ServeJSON()
 	}()
+	name := this.GetString("name")
+	fmt.Println(name)
 	page,err :=this.GetInt("page")
 	if err != nil {
 		resp.Msg = err.Error()
 		return
 	}
-	resp = service.GetUser(page,util.PAGE_SIZE)
+	resp = service.GetUser(page,util.PAGE_SIZE,name)
 }
 
 

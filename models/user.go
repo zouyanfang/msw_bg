@@ -68,16 +68,27 @@ type MessageBoard struct {
 }
 
 //用户列表
-func UserList(pageIndex,pageSize int)(list []MessageBoard	,err error){
-	sql := `SELECT m.id,m.content,create_time,u.name FROM user_message m LEFT JOIN users u ON m.uid = u.id ORDER BY create_time DESC LIMIT ?,?`
+func UserList(pageIndex,pageSize int,name string)(list []MessageBoard	,err error){
+	sql := `SELECT m.id,m.content,create_time,u.name FROM user_message m LEFT JOIN users u ON m.uid = u.id  `
+	if name != ""{
+		sql += "where u.name like "+name
+	}
+	sql += ` ORDER BY create_time DESC LIMIT ?,?`
 	_,err = orm.NewOrm().Raw(sql,pageIndex,pageSize).QueryRows(&list)
+	fmt.Println(sql)
 	return
 }
 
 //用户总数
-func UserCount()(count int,err error)  {
-	sql := `SELECT COUNT(1) FROM user_message`
+func UserCount(uid int)(count int,err error)  {
+	sql := `SELECT COUNT(1) FROM user_message `
+	if uid != 0 {
+		sql += " where uid = ?"
+		err = orm.NewOrm().Raw(sql,uid).QueryRow(&count)
+		return
+	}
 	err = orm.NewOrm().Raw(sql).QueryRow(&count)
+	fmt.Println(sql,uid)
 	return
 }
 
@@ -118,5 +129,12 @@ func UpdateSysUser(uid int,state int) error {
 func GetUserMsgDetail(id int)(m MessageBoard,err error){
 	sql := `SELECT * FROM user_message WHERE id = ?`
 	err = orm.NewOrm().Raw(sql,id).QueryRow(&m)
+	return
+}
+
+func FindByUid(name string)(err error,id int){
+	sql := `SELECT id FROM users WHERE name = ?`
+	err = orm.NewOrm().Raw(sql,name).QueryRow(&id)
+
 	return
 }
