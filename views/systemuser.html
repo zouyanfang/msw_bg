@@ -107,14 +107,18 @@
           </div>
   <script type="text/javascript">
         function PrepareString(result){
-            console.log(result)
             for (var i = 0;i<result.Object.length;i++){
                  var text = " <tr>"+
                         "<td>"+result.Object[i].Id+"</td>"+
                         "<td>普通管理员</td>"+
                         "<td>"+result.Object[i].Account+"</td>"+
-                        "<td>"+result.Object[i].CreateTime+"</td>"+
-                        "<td class=><a class='fa fa-close myclose' value='"+result.Object[i].Id+"'></a></td>"
+                        "<td>"+result.Object[i].CreateTime+"</td>"
+                         if (result.Object[i].State == 0){
+                        text +="<td><span class='fa fa-unlock-alt unlock' style='color:red' value='+result.Object[i].Id+' state = 1></span></td>"
+                         }else {
+                            text+="<td><span class='fa fa-unlock unlock' style='color:#16d87f' value='+result.Object[i].Id+' state = 0></span></td>"
+                         }
+                        text +="<td><a class='fa fa-close myclose' value='+result.Object[i].Id+'></a></td>"+
                     "</tr>"
                 $("#content").append(text)
             }

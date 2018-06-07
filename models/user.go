@@ -98,7 +98,7 @@ func GetNewsList(pageIndex,pageSize int,name string)(list []MessageBoard,err err
 	if name != ""{
 		sql += " WHERE title like "+name
 	}
-	sql += " LIMIT ?,? "
+	sql += " ORDER BY create_time DESC LIMIT ?,? "
 	_,err = orm.NewOrm().Raw(sql,pageIndex,pageSize).QueryRows(&list)
 	fmt.Println(list)
 	return
