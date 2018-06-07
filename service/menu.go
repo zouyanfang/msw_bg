@@ -25,14 +25,17 @@ func CreateNewMenu(uid int, menuname string,menuimg string,describe string)(resp
 	return
 }
 
-func GetMenuList(page,pageSize int)(resp models.PageResp){
+func GetMenuList(page,pageSize int,name string)(resp models.PageResp){
+	if name != ""{
+		name = " '%"+name+"%' "
+	}
 	start := util.StartIndex(page,pageSize)
-	list,err :=	models.GetMenuList(start,pageSize)
+	list,err :=	models.GetMenuList(start,pageSize,name)
 	if err != nil {
 		resp.Msg = err.Error()
 		return
 	}
-	count,err := models.CountMenu()
+	count,err := models.CountMenu(name)
 	if err != nil {
 		resp.Msg = err.Error()
 		return

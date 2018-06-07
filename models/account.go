@@ -24,14 +24,23 @@ func Login(account string,pwd string)(a *Admin){
 	return
 }
 
-func GetAdminList(pageIndex,pageSize int)(list []Admin,err error){
-	sql := `SELECT * FROM admin WHERE role = 0 LIMIT ?,?`
+func GetAdminList(pageIndex,pageSize int,name string)(list []Admin,err error){
+	sql := `SELECT * FROM admin WHERE role = 0 `
+	if name != "" {
+		sql += " AND account like "+name
+	}
+	sql += " LIMIT ?,? "
 	_,err = orm.NewOrm().Raw(sql,pageIndex,pageSize).QueryRows(&list)
 	return
 }
 
-func CountAdmin()(count int,err error){
+func CountAdmin(name string)(count int,err error){
 	sql := `SELECT COUNT(1) FROM admin`
+	if name != ""{
+		sql += " WHERE account like "+name
+		err = orm.NewOrm().Raw(sql).QueryRow(&count)
+		return
+	}
 	err = orm.NewOrm().Raw(sql).QueryRow(&count)
 	return
 }

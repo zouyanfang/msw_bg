@@ -93,15 +93,24 @@ func UserCount(uid int)(count int,err error)  {
 }
 
 
-func GetNewsList(pageIndex,pageSize int)(list []MessageBoard,err error){
-	sql := `SELECT title,id,create_time,content FROM message_board LIMIT ?,?`
+func GetNewsList(pageIndex,pageSize int,name string)(list []MessageBoard,err error){
+	sql := `SELECT title,id,create_time,content FROM message_board `
+	if name != ""{
+		sql += " WHERE title like "+name
+	}
+	sql += " LIMIT ?,? "
 	_,err = orm.NewOrm().Raw(sql,pageIndex,pageSize).QueryRows(&list)
 	fmt.Println(list)
 	return
 }
 
-func CountNews()(count int,err error){
+func CountNews(name string)(count int,err error){
 	sql := `SELECT COUNT(1) FROM message_board`
+	if name != "" {
+		sql += " WHERE title like "+name
+		err = orm.NewOrm().Raw(sql).QueryRow(&count)
+		return
+	}
 	err = orm.NewOrm().Raw(sql).QueryRow(&count)
 	return
 }

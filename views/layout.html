@@ -390,13 +390,14 @@
 
     $("#searchnumbers").click(function(){
         var name = $("#searchnumber").val()
-        if(name == ""){
+        /*if(name == ""){
             alert("搜索不能空")
             return
-        }
+        }*/
+        console.log(name)
         $("#searchnumber").attr("value",name)
         var url = $("#mypage").attr("url")
-        alert("url"+url+"name"+name)
+      /*  alert("url"+url+"name"+name)*/
         mypages(1,url)
     })
 

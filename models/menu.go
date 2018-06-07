@@ -1,6 +1,8 @@
 package models
 
-import "github.com/astaxie/beego/orm"
+import (
+	"github.com/astaxie/beego/orm"
+)
 
 type Menu struct {
 	Id           int
@@ -34,14 +36,21 @@ func CheckMenuName(uid int,menuname string)(count int,err error){
 }
 
 
-func GetMenuList(page,pageSize int)(list []Menu,err error){
-	sql := `SELECT m.id,menu_name,create_date,u.name FROM menu m LEFT JOIN users u on m.uid = u.id LIMIT ?,?`
+func GetMenuList(page,pageSize int,name string)(list []Menu,err error){
+	sql := `SELECT m.id,menu_name,create_date,u.name FROM menu m LEFT JOIN users u ON m.uid = u.id `
+	if name != ""{
+		sql += " WHERE m.menu_name like "+name
+	}
+	sql += " LIMIT ?,? "
 	_,err = orm.NewOrm().Raw(sql,page,pageSize).QueryRows(&list)
 	return
 }
 
-func CountMenu()(count int,err error){
+func CountMenu(name string)(count int,err error){
 	sql := `SELECT COUNT(1) FROM menu`
+	if name != "" {
+		sql += " WHERE menu_name like "+name
+	}
 	err = orm.NewOrm().Raw(sql).QueryRow(&count)
 	return
 }

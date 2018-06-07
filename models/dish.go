@@ -2,7 +2,6 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
-	"fmt"
 )
 
 //菜谱
@@ -88,15 +87,23 @@ func UpdateDish(dishid int,taste,system string,main ,second string)(err error){
 	return
 }
 
-func GetDishList(pageIndex,pageSize int)(list []Dish,err error){
-	sql := `SELECT id,dish_name,popular_count,collect_count FROM dish LIMIT ?,?`
+func GetDishList(pageIndex,pageSize int,name string)(list []Dish,err error){
+	sql := `SELECT id,dish_name,popular_count,collect_count FROM dish `
+	if name != ""{
+		sql += " WHERE dish_name like "+name
+	}
+	sql += " LIMIT ?,? "
 	_,err = orm.NewOrm().Raw(sql,pageIndex,pageSize).QueryRows(&list)
-	fmt.Println(list)
 	return
 }
 
-func GetDishCount()(count int,err error){
-	sql := `SELECT COUNT(1) FROM dish`
+func GetDishCount(name string )(count int,err error){
+	sql := `SELECT count(1) FROM dish`
+	if name != ""{
+		sql += " WHERE dish_name like "+name
+		err = orm.NewOrm().Raw(sql).QueryRow(&count)
+		return
+	}
 	err = orm.NewOrm().Raw(sql).QueryRow(&count)
 	return
 }

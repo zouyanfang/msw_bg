@@ -92,14 +92,17 @@ func GetUser(page,pageSize int,name string)(resp models.PageResp){
 }
 
 //获取公告
-func GetNews(page,pageSize int)(resp models.PageResp){
+func GetNews(page,pageSize int,name string)(resp models.PageResp){
+	if name != ""{
+		name = " '%"+name+"%' "
+	}
 	start := util.StartIndex(page,pageSize)
-	list,err := models.GetNewsList(start,pageSize)
+	list,err := models.GetNewsList(start,pageSize,name)
 	if err != nil {
 		resp.Msg = err.Error()
 		return
 	}
-	count,err := models.CountNews()
+	count,err := models.CountNews(name)
 	if err != nil {
 		resp.Msg = err.Error()
 		return
@@ -126,14 +129,17 @@ func ReleaseNews(uid int,title,content string)(resp models.BaseResp){
 	return
 }
 
-func GetAdmin(page,pageSize int)(resp models.PageResp){
+func GetAdmin(page,pageSize int,name string)(resp models.PageResp){
+	if name != ""{
+		name = " '%"+name+"%' "
+	}
 	start := util.StartIndex(page,pageSize)
-	list,err := models.GetAdminList(start,pageSize)
+	list,err := models.GetAdminList(start,pageSize,name)
 	if err != nil {
 		resp.Msg = err.Error()
 		return
 	}
-	count,err := models.CountAdmin()
+	count,err := models.CountAdmin(name)
 	if err != nil {
 		resp.Msg = err.Error()
 		return

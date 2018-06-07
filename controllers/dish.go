@@ -15,7 +15,7 @@ type DishController struct {
 }
 
 func (this *DishController)ToDish(){
-	resp :=service.GetDishList(1,util.PAGE_SIZE)
+	resp :=service.GetDishList(1,util.PAGE_SIZE,"")
 	this.Data["object"] = resp
 	fmt.Println(resp)
 	this.Data["url"] = "/dish/pagedish"
@@ -31,8 +31,9 @@ func (this *DishController)PageDish(){
 		this.Data["json"] = resp
 		this.ServeJSON()
 	}()
+	name:= this.GetString("name")
 	page,_ := this.GetInt("page")
-	resp = service.GetDishList(page,util.PAGE_SIZE)
+	resp = service.GetDishList(page,util.PAGE_SIZE,name)
 }
 
 

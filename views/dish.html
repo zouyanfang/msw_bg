@@ -1,6 +1,15 @@
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">菜谱管理</h3>
+        <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" name="table_search" class="form-control pull-right" placeholder="Search" id="searchnumber">
+
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default" id="searchnumbers"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
@@ -8,8 +17,8 @@
             <tr>
                 <th style="width: 10px">Id</th>
                 <th>菜谱名</th>
-                <th>热度</th>
-                <th style="width: 40px">人气</th>
+                <th>人气</th>
+                <th style="width: 80px">收藏量</th>
                 <th style="width: 200px">删除</th>
             </tr>
             <tbody id="content">

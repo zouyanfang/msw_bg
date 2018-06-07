@@ -26,14 +26,17 @@ func UpdateDishDetail(dishid int,taste,system string,main ,second string)(resp m
 	return
 }
 
-func GetDishList(page,pageSize int)(resp models.PageResp){
+func GetDishList(page,pageSize int,name string)(resp models.PageResp){
+	if name != ""{
+		name = " '%"+name+"%' "
+	}
 	start := util.StartIndex(page,pageSize)
-	list,err := models.GetDishList(start,pageSize)
+	list,err := models.GetDishList(start,pageSize,name)
 	if err != nil {
 		resp.Msg = err.Error()
 		return
 	}
-	count,err := models.GetDishCount()
+	count,err := models.GetDishCount(name)
 	if err != nil {
 		resp.Msg = err.Error()
 		return

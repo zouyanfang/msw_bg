@@ -16,7 +16,7 @@ func (this *SysUserController)ToSys(){
 		this.Ctx.WriteString("你没有该权限")
 		return
 	}
-	resp := service.GetAdmin(1,util.PAGE_SIZE)
+	resp := service.GetAdmin(1,util.PAGE_SIZE,"")
 	this.Data["object"] = resp
 	this.Data["url"] = "/sysuser/pageadmin"
 	this.IsneedTemplate()
@@ -29,8 +29,9 @@ func (this *SysUserController)PageAdmin(){
 		this.Data["json"] = resp
 		this.ServeJSON()
 	}()
+	name := this.GetString("name")
 	page,_ := this.GetInt("page")
-	resp = service.GetAdmin(page,util.PAGE_SIZE)
+	resp = service.GetAdmin(page,util.PAGE_SIZE,name)
 }
 
 func (this *SysUserController)AddAdmin(){
@@ -64,7 +65,6 @@ func (this *SysUserController)Delete(){
 		this.ServeJSON()
 	}()
 	id,err :=this.GetInt("id")
-	fmt.Println(id)
 	if err != nil {
 		resp.Msg = err.Error()
 		return
@@ -86,7 +86,6 @@ func (this *SysUserController) UpdateSysUserState()  {
 	}()
 	id ,_:=this.GetInt("id")
 	state,_ :=this.GetInt("state")
-	fmt.Println("state",state)
 	resp = service.UpdateSysUser(id,state)
 }
 

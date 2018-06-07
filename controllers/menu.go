@@ -13,7 +13,7 @@ type MenuController struct {
 
 //到菜单页
 func(this *MenuController)ToMenu(){
-	resp := service.GetMenuList(1,util.PAGE_SIZE)
+	resp := service.GetMenuList(1,util.PAGE_SIZE,"")
 	this.Data["object"] = resp
 	this.Data["url"] = "/menu/pagemenu"
 	this.IsneedTemplate()
@@ -27,8 +27,9 @@ func (this *MenuController)PageMenu(){
 		this.Data["json"] = resp
 		this.ServeJSON()
 	}()
+	name := this.GetString("name")
 	page,_ :=this.GetInt("page")
-	resp = service.GetMenuList(page,util.PAGE_SIZE)
+	resp = service.GetMenuList(page,util.PAGE_SIZE,name)
 }
 
 func (this *MenuController)Delete(){

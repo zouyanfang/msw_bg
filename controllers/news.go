@@ -12,7 +12,7 @@ type NewsController struct {
 }
 
 func (this *NewsController)ToNews(){
-	resp := service.GetNews(1,util.PAGE_SIZE)
+	resp := service.GetNews(1,util.PAGE_SIZE,"")
 	this.Data["object"] = resp
 	fmt.Println(resp)
 	this.Data["url"] = "/news/pagenews"
@@ -27,8 +27,9 @@ func (this *NewsController)PageNews(){
 		this.Data["json"] = resp
 		this.ServeJSON()
 	}()
+	name := this.GetString("name")
 	page,_ := this.GetInt("page")
-	resp = service.GetNews(page,util.PAGE_SIZE)
+	resp = service.GetNews(page,util.PAGE_SIZE,name)
 	return
 }
 
